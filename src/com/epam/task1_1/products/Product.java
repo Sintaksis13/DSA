@@ -1,4 +1,4 @@
-package com.epam.chiefcook.products;
+package com.epam.task1_1.products;
 
 public abstract class Product {
     private double weightInGrams;

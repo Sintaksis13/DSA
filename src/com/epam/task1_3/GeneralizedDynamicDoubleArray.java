@@ -1,20 +1,20 @@
-package com.epam.task1_2;
+package com.epam.task1_3;
 
 import java.util.Arrays;
 
-public class DynamicDoubleArray {
-    private double[] array;
+public class GeneralizedDynamicDoubleArray<T> {
+    private T[] array;
     private int arraySize = -1;
 
-    public DynamicDoubleArray() {
+    public GeneralizedDynamicDoubleArray() {
         this(0);
     }
 
-    public DynamicDoubleArray(int initialSize) {
-        this.array = new double[initialSize];
+    public GeneralizedDynamicDoubleArray(int initialSize) {
+        this.array = getNewArray(initialSize);
     }
 
-    public void add(double elem) {
+    public void add(T elem) {
         arraySize++;
         if (arraySize == array.length) {
             increaseArrayLength();
@@ -23,7 +23,7 @@ public class DynamicDoubleArray {
         array[arraySize] = elem;
     }
 
-    public double get(int index) {
+    public T get(int index) {
         checkIndexError(index);
 
         return array[index];
@@ -43,14 +43,14 @@ public class DynamicDoubleArray {
         arraySize--;
     }
 
-    protected void checkIndexError(int index) {
+    private void checkIndexError(int index) {
         if (index > arraySize || index < 0) {
             throw new ArrayIndexOutOfBoundsException("There is no such index in array or value has not set yet!");
         }
     }
 
     private void increaseArrayLength() {
-        double[] newArray = new double[array.length + 1];
+        T[] newArray = getNewArray(array.length + 1);
         for (int i = 0; i < array.length; i++) {
             newArray[i] = array[i];
         }
@@ -59,12 +59,18 @@ public class DynamicDoubleArray {
     }
 
     private void decreaseArrayLength() {
-        double[] newArray = new double[array.length - 1];
+        T[] newArray = getNewArray(array.length - 1);
         for (int i = 0; i < newArray.length; i++) {
             newArray[i] = array[i];
         }
 
         array = newArray;
+    }
+
+    private T[] getNewArray(int size) {
+        @SuppressWarnings("unchecked")
+        T[] newArray = (T[]) new Object[size];
+        return newArray;
     }
 
     @Override
