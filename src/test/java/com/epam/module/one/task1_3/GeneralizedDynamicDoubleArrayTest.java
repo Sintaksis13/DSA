@@ -1,4 +1,4 @@
-package com.epam.task1_3;
+package com.epam.module.one.task1_3;
 
 import org.junit.Test;
 

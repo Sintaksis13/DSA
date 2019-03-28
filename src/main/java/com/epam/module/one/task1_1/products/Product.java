@@ -1,4 +1,4 @@
-package com.epam.task1_1.products;
+package com.epam.module.one.task1_1.products;
 
 public abstract class Product {
     private double weightInGrams;
