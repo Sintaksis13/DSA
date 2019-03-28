@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class GeneralizedDynamicDoubleArray<T> {
     private T[] array;
-    private int arraySize = -1;
+    private int arraySize = 0;
 
     public GeneralizedDynamicDoubleArray() {
         this(0);
@@ -15,12 +15,12 @@ public class GeneralizedDynamicDoubleArray<T> {
     }
 
     public void add(T elem) {
-        arraySize++;
         if (arraySize == array.length) {
             increaseArrayLength();
         }
 
         array[arraySize] = elem;
+        arraySize++;
     }
 
     public T get(int index) {
@@ -44,13 +44,14 @@ public class GeneralizedDynamicDoubleArray<T> {
     }
 
     private void checkIndexError(int index) {
-        if (index > arraySize || index < 0) {
-            throw new ArrayIndexOutOfBoundsException("There is no such index in array or value has not set yet!");
+        if (index >= arraySize || index < 0) {
+            throw new ArrayIndexOutOfBoundsException("There is no such index in array!");
         }
     }
 
     private void increaseArrayLength() {
-        T[] newArray = getNewArray(array.length + 1);
+        int newArraySize = array.length == 0 ? 1 : array.length;
+        T[] newArray = getNewArray(newArraySize * 2);
         for (int i = 0; i < array.length; i++) {
             newArray[i] = array[i];
         }
@@ -59,7 +60,7 @@ public class GeneralizedDynamicDoubleArray<T> {
     }
 
     private void decreaseArrayLength() {
-        T[] newArray = getNewArray(array.length - 1);
+        T[] newArray = getNewArray(arraySize - 1);
         for (int i = 0; i < newArray.length; i++) {
             newArray[i] = array[i];
         }
@@ -71,6 +72,10 @@ public class GeneralizedDynamicDoubleArray<T> {
         @SuppressWarnings("unchecked")
         T[] newArray = (T[]) new Object[size];
         return newArray;
+    }
+
+    public int size() {
+        return arraySize;
     }
 
     @Override

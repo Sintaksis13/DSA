@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class DynamicDoubleArray {
     private double[] array;
-    private int arraySize = -1;
+    private int arraySize = 0;
 
     public DynamicDoubleArray() {
         this(0);
@@ -15,12 +15,12 @@ public class DynamicDoubleArray {
     }
 
     public void add(double elem) {
-        arraySize++;
         if (arraySize == array.length) {
             increaseArrayLength();
         }
 
         array[arraySize] = elem;
+        arraySize++;
     }
 
     public double get(int index) {
@@ -36,7 +36,7 @@ public class DynamicDoubleArray {
             array[i] = array[i + 1];
         }
 
-        if (array.length - arraySize <= 1) {
+        if (array.length > 2 * (arraySize - 1)) {
             decreaseArrayLength();
         }
 
@@ -44,13 +44,15 @@ public class DynamicDoubleArray {
     }
 
     protected void checkIndexError(int index) {
-        if (index > arraySize || index < 0) {
+        if (index >= arraySize || index < 0) {
             throw new ArrayIndexOutOfBoundsException("There is no such index in array or value has not set yet!");
         }
     }
 
     private void increaseArrayLength() {
-        double[] newArray = new double[array.length + 1];
+        int newArraySize = array.length == 0 ? 1 : array.length;
+
+        double[] newArray = new double[newArraySize * 2];
         for (int i = 0; i < array.length; i++) {
             newArray[i] = array[i];
         }
@@ -59,12 +61,16 @@ public class DynamicDoubleArray {
     }
 
     private void decreaseArrayLength() {
-        double[] newArray = new double[array.length - 1];
+        double[] newArray = new double[arraySize - 1];
         for (int i = 0; i < newArray.length; i++) {
             newArray[i] = array[i];
         }
 
         array = newArray;
+    }
+
+    public int size() {
+        return arraySize;
     }
 
     @Override
