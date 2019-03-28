@@ -45,7 +45,7 @@ public class DynamicDoubleArray {
 
     protected void checkIndexError(int index) {
         if (index >= arraySize || index < 0) {
-            throw new ArrayIndexOutOfBoundsException("There is no such index in array or value has not set yet!");
+            throw new ArrayIndexOutOfBoundsException("There is no such index in array!");
         }
     }
 
